@@ -22,6 +22,7 @@ This code is provided on an "AS-IS” basis without warranty of any kind, either
     ```
     $ export APPLITOOLS_ACCESS_KEY=<your Applitools API Key>
     ```
+    * Note: This framework runs tests in parallel. Make sure the number of tests run in parallel matches your Applitools concurrency.
 4. Project Dependencies
     * Check that packages are available
     ```
