@@ -41,7 +41,7 @@ public class VisitApplitoolsTest extends TestBase {
 	 */
 	@Test
 	public void verifyLinkTest() {
-
+		eyes=null;
 		// group tests under the same batch instance.
 		eyes.setBatch(batchInfo);
 		

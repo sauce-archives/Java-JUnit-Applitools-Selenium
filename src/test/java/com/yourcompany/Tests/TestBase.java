@@ -1,6 +1,5 @@
 package com.yourcompany.Tests;
 
-import com.applitools.eyes.BatchInfo;
 import com.applitools.eyes.selenium.Eyes;
 import com.applitools.eyes.selenium.StitchMode;
 import com.saucelabs.common.SauceOnDemandAuthentication;
@@ -8,7 +7,6 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -55,7 +53,8 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
     @Rule
     public TestName name = new TestName() {
-        public String getMethodName() {
+        @Override
+		public String getMethodName() {
             return String.format("%s", super.getMethodName());
         }
     };
@@ -144,7 +143,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 
     private void setupApplitools() {
 		this.eyes = new Eyes();
-		this.eyes.setApiKey(this.applitoolsApiKey);
+		this.eyes.setApiKey(TestBase.applitoolsApiKey);
 		this.eyes.setForceFullPageScreenshot(true);
 		this.eyes.setStitchMode(StitchMode.CSS);
 	}
