@@ -153,7 +153,7 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 		this.eyes.setStitchMode(StitchMode.CSS);
         eyes.setBatch(batchInfo);
 
-        driver = eyes.open(driver, "Applitools", "Guinea Pig Page", new RectangleSize(1024, 768));
+        eyes.open(driver, "Applitools", "Guinea Pig Page", new RectangleSize(1024, 768));
 
     }
 
