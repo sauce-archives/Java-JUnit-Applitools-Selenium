@@ -1,6 +1,7 @@
 package com.yourcompany.Tests;
 
 import com.applitools.eyes.BatchInfo;
+import com.applitools.eyes.RectangleSize;
 import com.applitools.eyes.selenium.Eyes;
 import com.applitools.eyes.selenium.StitchMode;
 import com.saucelabs.common.SauceOnDemandAuthentication;
@@ -69,6 +70,9 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
     protected String screenResolution;
     protected WebDriver driver;
     protected Eyes eyes;
+    private static BatchInfo batchInfo;
+
+
 
     /**
      * Constructs a new instance of the test.  The constructor requires three string parameters, which represent the operating
@@ -147,10 +151,17 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
 		this.eyes.setApiKey(this.applitoolsApiKey);
 		this.eyes.setForceFullPageScreenshot(true);
 		this.eyes.setStitchMode(StitchMode.CSS);
-	}
+        eyes.setBatch(batchInfo);
+
+        driver = eyes.open(driver, "Applitools", "Guinea Pig Page", new RectangleSize(1024, 768));
+
+    }
 
 	@After
     public void tearDown() throws Exception {
+        // End visual testing. Validate visual correctness.
+        eyes.close();
+
         driver.quit();
         eyes.abortIfNotClosed();
     }
@@ -170,5 +181,21 @@ public class TestBase implements SauceOnDemandSessionIdProvider {
         //If available add build tag. When running under Jenkins BUILD_TAG is automatically set.
         //You can set this manually on manual runs.
         buildTag = System.getenv("BUILD_TAG");
+        batchTestsTogether();
     }
+
+    public static void batchTestsTogether()
+    {
+        String JenkinsBatchId = System.getenv("APPLITOOLS_BATCH_ID");
+
+        // If the test runs via Jenkins, set the batch ID accordingly.
+        if (JenkinsBatchId != null) {
+            batchInfo = new BatchInfo(System.getenv("JOB_NAME"));
+            batchInfo.setId(JenkinsBatchId);
+        }
+        else{
+            batchInfo = new BatchInfo("Applitools and Sauce Example Tests");
+        }
+    }
+
 }
